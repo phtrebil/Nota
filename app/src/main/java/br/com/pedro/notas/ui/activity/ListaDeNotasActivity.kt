@@ -29,6 +29,11 @@ class ListaDeNotasActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        adapter.atualiza(dao.buscaTudo())
+    }
+
     private fun carregaRecyclerView() {
         val recyclerView = binding.rvNotas
         recyclerView.adapter = adapter

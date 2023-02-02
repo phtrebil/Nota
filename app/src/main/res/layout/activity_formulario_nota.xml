@@ -14,7 +14,7 @@
         >
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/titulo_formulario"
+            android:id="@+id/titulo_formulario1234"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -25,21 +25,23 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/titulo_add"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/t_tulo" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/texto_formulario"
+            android:id="@+id/texto_formulario1234"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="@id/titulo_formulario"
-            app:layout_constraintStart_toStartOf="@id/titulo_formulario"
-            app:layout_constraintTop_toBottomOf="@id/titulo_formulario">
+            app:layout_constraintEnd_toEndOf="@id/titulo_formulario1234"
+            app:layout_constraintStart_toStartOf="@id/titulo_formulario1234"
+            app:layout_constraintTop_toBottomOf="@id/titulo_formulario1234">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/texto_add"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:drawablePadding="8dp"
