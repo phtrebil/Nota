@@ -1,5 +1,6 @@
-package br.com.pedro.notas.ui
+package br.com.pedro.notas.ui.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -19,7 +20,16 @@ class ListaDeNotasActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        carregaRecyclerView()
 
+        binding.fabAdicionaNota.setOnClickListener {
+            val intent = Intent(this, FormularioNotaActivity::class.java)
+            startActivity(intent)
+        }
+
+    }
+
+    private fun carregaRecyclerView() {
         val recyclerView = binding.rvNotas
         recyclerView.adapter = adapter
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, 1)

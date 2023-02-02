@@ -15,13 +15,11 @@ class ListaDeNotasAdapter(
 
    inner class NotasViewHolder(
        private val binding: ItemListaDeNotasBinding,
-       private var titulo: String = binding.titulo.text.toString(),
-       private var texto: String = binding.textoNota.text.toString()
    ): RecyclerView.ViewHolder(binding.root) {
 
        fun vincula(nota: Notas) {
-           titulo = nota.Título
-           texto = nota.Texto
+           binding.titulo.text = nota.Título
+           binding.textoNota.text = nota.Texto
        }
 
 

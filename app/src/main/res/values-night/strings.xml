@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Notas</string>
     <string name="t_tulo">Título</string>
     <string name="texto">Texto</string>
     <string name="salvar">Salvar</string>
