@@ -3,11 +3,13 @@ package br.com.pedro.notas.ui.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import br.com.pedro.notas.Dao.NotasDao
 import br.com.pedro.notas.R
 import br.com.pedro.notas.databinding.ActivityListaDeNotasBinding
 import br.com.pedro.notas.ui.adapter.ListaDeNotasAdapter
+import br.com.pedro.notas.ui.adapter.helper.callback.NotaItemTouchHelper
 
 class ListaDeNotasActivity : AppCompatActivity() {
 
@@ -38,5 +40,7 @@ class ListaDeNotasActivity : AppCompatActivity() {
         val recyclerView = binding.rvNotas
         recyclerView.adapter = adapter
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, 1)
+        ItemTouchHelper(NotaItemTouchHelper(adapter)).attachToRecyclerView(recyclerView)
+
     }
 }

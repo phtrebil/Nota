@@ -1,6 +1,7 @@
 package br.com.pedro.notas.Dao
 
 import br.com.pedro.notas.model.Notas
+import java.util.*
 
 class NotasDao {
     fun buscaTudo(): List<Notas> {
@@ -11,6 +12,15 @@ class NotasDao {
         notas.add(nota)
     }
 
+    fun remove(posicao: Int) {
+        notas.removeAt(posicao)
+    }
+
+    fun troca(posicaoInicial: Int, posicaoFinal: Int) {
+        Collections.swap(notas, posicaoInicial, posicaoFinal);
+
+    }
+
 
     companion object {
 
@@ -18,8 +28,8 @@ class NotasDao {
             notas.add(nota)
         }
 
-        fun buscaTudo(): List<Notas> {
-            return notas.toList()
+        fun remove(posicao: Int) {
+            notas.removeAt(posicao)
         }
 
         private val notas = mutableListOf<Notas>(

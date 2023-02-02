@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.pedro.notas.databinding.ItemListaDeNotasBinding
 import br.com.pedro.notas.model.Notas
+import java.util.*
 
 class ListaDeNotasAdapter(
 
@@ -24,13 +25,29 @@ class ListaDeNotasAdapter(
            binding.textoNota.text = nota.Texto
        }
 
-
    }
 
     fun atualiza(notas: List<Notas>){
         this.notas.clear()
         this.notas.addAll(notas)
         notifyDataSetChanged()
+    }
+
+    fun remove(posicao: Int) {
+        notas.removeAt(posicao)
+        notifyItemRemoved(posicao)
+    }
+
+    fun troca(posicaoInicial: Int, posicaoFinal: Int) {
+        Collections.swap(notas, posicaoInicial, posicaoFinal)
+        notifyItemMoved(posicaoInicial, posicaoFinal)
+    }
+
+    fun altera(posicao: Int, nota: Notas?) {
+        if (nota != null) {
+            notas[posicao] = nota
+        }
+        notifyItemChanged(posicao)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotasViewHolder {
