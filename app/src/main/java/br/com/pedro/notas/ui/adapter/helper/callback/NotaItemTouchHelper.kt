@@ -2,7 +2,7 @@ package br.com.pedro.notas.ui.adapter.helper.callback
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import br.com.pedro.notas.Dao.NotasDao
+import br.com.pedro.notas.dao.NotasDao
 import br.com.pedro.notas.ui.adapter.ListaDeNotasAdapter
 
 class NotaItemTouchHelper(

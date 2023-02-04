@@ -11,23 +11,37 @@ import java.util.*
 class ListaDeNotasAdapter(
 
     val context: Context,
-    notas: List<Notas>
-): RecyclerView.Adapter<ListaDeNotasAdapter.NotasViewHolder>() {
+    notas: List<Notas>,
+    var quandoClicaNoItem: (Nota: Notas) -> Unit = {}
+
+) : RecyclerView.Adapter<ListaDeNotasAdapter.NotasViewHolder>() {
 
     private val notas = notas.toMutableList()
 
-   inner class NotasViewHolder(
-       private val binding: ItemListaDeNotasBinding,
-   ): RecyclerView.ViewHolder(binding.root) {
+    inner class NotasViewHolder(
+        private val binding: ItemListaDeNotasBinding,
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-       fun vincula(nota: Notas) {
-           binding.titulo.text = nota.Título
-           binding.textoNota.text = nota.Texto
-       }
+        private lateinit var nota: Notas
 
-   }
+        init {
+            itemView.setOnClickListener {
+                if (::nota.isInitialized) {
+                    quandoClicaNoItem(nota)
+                }
+            }
+        }
 
-    fun atualiza(notas: List<Notas>){
+
+        fun vincula(nota: Notas) {
+            this.nota = nota
+            binding.titulo.text = nota.Título
+            binding.textoNota.text = nota.Texto
+        }
+
+    }
+
+    fun atualiza(notas: List<Notas>) {
         this.notas.clear()
         this.notas.addAll(notas)
         notifyDataSetChanged()
@@ -52,7 +66,7 @@ class ListaDeNotasAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotasViewHolder {
         val inflater = LayoutInflater.from(context)
-        return NotasViewHolder(ItemListaDeNotasBinding.inflate(inflater, parent,false))
+        return NotasViewHolder(ItemListaDeNotasBinding.inflate(inflater, parent, false))
     }
 
     override fun onBindViewHolder(holder: NotasViewHolder, position: Int) {

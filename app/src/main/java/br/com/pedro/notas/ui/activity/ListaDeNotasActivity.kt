@@ -3,10 +3,10 @@ package br.com.pedro.notas.ui.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import br.com.pedro.notas.Dao.NotasDao
-import br.com.pedro.notas.R
+import br.com.pedro.notas.dao.NotasDao
 import br.com.pedro.notas.databinding.ActivityListaDeNotasBinding
 import br.com.pedro.notas.ui.adapter.ListaDeNotasAdapter
 import br.com.pedro.notas.ui.adapter.helper.callback.NotaItemTouchHelper
@@ -41,6 +41,15 @@ class ListaDeNotasActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, 1)
         ItemTouchHelper(NotaItemTouchHelper(adapter)).attachToRecyclerView(recyclerView)
+        adapter.quandoClicaNoItem = {
+            val intent = Intent(this,
+                FormularioNotaActivity::class.java)
+                .apply {
+                putExtra("nota", it)
+            }
+            startActivity(intent)
+        }
+
 
     }
 }

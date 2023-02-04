@@ -1,4 +1,4 @@
-package br.com.pedro.notas.Dao
+package br.com.pedro.notas.dao
 
 import br.com.pedro.notas.model.Notas
 import java.util.*
@@ -8,19 +8,10 @@ class NotasDao {
         return notas.toList()
     }
 
-    fun adiciona(nota: Notas) {
-        notas.add(nota)
-    }
-
-    fun remove(posicao: Int) {
-        notas.removeAt(posicao)
-    }
-
     fun troca(posicaoInicial: Int, posicaoFinal: Int) {
-        Collections.swap(notas, posicaoInicial, posicaoFinal);
+        Collections.swap(notas, posicaoInicial, posicaoFinal)
 
     }
-
 
     companion object {
 
