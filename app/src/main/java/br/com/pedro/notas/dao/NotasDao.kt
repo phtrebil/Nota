@@ -10,7 +10,10 @@ class NotasDao {
 
     fun troca(posicaoInicial: Int, posicaoFinal: Int) {
         Collections.swap(notas, posicaoInicial, posicaoFinal)
+    }
 
+    fun alteraNota(posicao: Int, nota: Notas) {
+        notas[posicao] = nota
     }
 
     companion object {

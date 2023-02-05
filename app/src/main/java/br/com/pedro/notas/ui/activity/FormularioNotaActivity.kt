@@ -1,17 +1,20 @@
 package br.com.pedro.notas.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import br.com.pedro.notas.dao.NotasDao
 import br.com.pedro.notas.R
+import br.com.pedro.notas.dao.NotasDao
 import br.com.pedro.notas.databinding.ActivityFormularioNotaBinding
 import br.com.pedro.notas.model.Notas
 
+
 class FormularioNotaActivity : AppCompatActivity() {
+
 
     private val binding by lazy {
         ActivityFormularioNotaBinding.inflate(layoutInflater)
@@ -20,11 +23,14 @@ class FormularioNotaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        intent.getParcelableExtra<Notas>("nota")?.let {
-            notaEdita ->
-            preencheCampo(notaEdita)
+        setTitle("Cria Nota")
+        val dadosRecebidos = intent
+        if(dadosRecebidos.hasExtra("nota")) {
+            setTitle("Edita Nota")
+            intent.getParcelableExtra<Notas>("nota")?.let { notaEdita ->
+                preencheCampo(notaEdita)
+            }
         }
-
 
     }
 
@@ -46,23 +52,40 @@ class FormularioNotaActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.menu_formulario_salvar -> {
                 criaNota()
-                finish()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
+
+
     private fun criaNota() {
+        val dadosRecebidos = intent
+        criaNotaNova()
+        if(!dadosRecebidos.hasExtra("nota")) {
+            val dao = NotasDao
+            dao.adiciona(criaNotaNova())
+            finish()
+        }else{
+            val resultadoInsercao = Intent(this, ListaDeNotasActivity::class.java).apply {
+                putExtra("nota2", criaNotaNova())
+                putExtra("posicao", -1)
+            }
+            startActivity(resultadoInsercao)
+
+        }
+
+    }
+
+    private fun criaNotaNova(): Notas {
         val titulo = binding.tituloAdd.text.toString()
         val texto = binding.textoAdd.text.toString()
         val novaNota = Notas(
             titulo,
             texto
         )
-        val dao = NotasDao
-
-        dao.adiciona(novaNota)
+        return novaNota
     }
 
 

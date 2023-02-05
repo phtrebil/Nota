@@ -1,15 +1,17 @@
 package br.com.pedro.notas.ui.activity
 
+import android.R.attr.data
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import br.com.pedro.notas.dao.NotasDao
 import br.com.pedro.notas.databinding.ActivityListaDeNotasBinding
+import br.com.pedro.notas.model.Notas
 import br.com.pedro.notas.ui.adapter.ListaDeNotasAdapter
 import br.com.pedro.notas.ui.adapter.helper.callback.NotaItemTouchHelper
+
 
 class ListaDeNotasActivity : AppCompatActivity() {
 
@@ -23,6 +25,9 @@ class ListaDeNotasActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         carregaRecyclerView()
+
+
+
 
         binding.fabAdicionaNota.setOnClickListener {
             val intent = Intent(this, FormularioNotaActivity::class.java)
@@ -41,15 +46,28 @@ class ListaDeNotasActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, 1)
         ItemTouchHelper(NotaItemTouchHelper(adapter)).attachToRecyclerView(recyclerView)
+
         adapter.quandoClicaNoItem = {
-            val intent = Intent(this,
-                FormularioNotaActivity::class.java)
+            val intent = Intent(
+                this,
+                FormularioNotaActivity::class.java
+            )
                 .apply {
-                putExtra("nota", it)
-            }
+                    putExtra("nota", it)
+                }
             startActivity(intent)
+        }
+        val dadosRecebidos = intent
+        if (dadosRecebidos.hasExtra("nota")) {
+            val notaRecebida = intent.hasExtra("nota2") as Notas
+            val posicaoRecebida = intent.getIntExtra("posicao", -1)
+
+            dao.alteraNota(posicaoRecebida, notaRecebida)
+            adapter.altera(posicaoRecebida, notaRecebida)
         }
 
 
     }
+
+
 }

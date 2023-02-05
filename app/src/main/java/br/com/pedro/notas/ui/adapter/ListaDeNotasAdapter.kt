@@ -57,10 +57,8 @@ class ListaDeNotasAdapter(
         notifyItemMoved(posicaoInicial, posicaoFinal)
     }
 
-    fun altera(posicao: Int, nota: Notas?) {
-        if (nota != null) {
-            notas[posicao] = nota
-        }
+    fun altera(posicao: Int, nota: Notas) {
+        notas[posicao] = nota
         notifyItemChanged(posicao)
     }
 
