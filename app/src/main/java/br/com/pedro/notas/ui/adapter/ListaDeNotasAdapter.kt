@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
+import br.com.pedro.notas.dao.NotaDataBase
 import br.com.pedro.notas.databinding.ItemListaDeNotasBinding
 import br.com.pedro.notas.model.Notas
 import java.util.*
@@ -11,7 +13,7 @@ import java.util.*
 class ListaDeNotasAdapter(
 
     val context: Context,
-    notas: List<Notas>,
+    notas: List<Notas> = emptyList(),
     var quandoClicaNoItem: (Nota: Notas) -> Unit = {}
 
 ) : RecyclerView.Adapter<ListaDeNotasAdapter.NotasViewHolder>() {
@@ -32,7 +34,6 @@ class ListaDeNotasAdapter(
             }
         }
 
-
         fun vincula(nota: Notas) {
             this.nota = nota
             binding.titulo.text = nota.Título
@@ -48,18 +49,17 @@ class ListaDeNotasAdapter(
     }
 
     fun remove(posicao: Int) {
-        notas.removeAt(posicao)
+        val db = Room.databaseBuilder(
+            context,
+            NotaDataBase::class.java, "db"
+        ).allowMainThreadQueries().build()
+        db.notasDao().delete(notas.removeAt(posicao))
         notifyItemRemoved(posicao)
     }
 
     fun troca(posicaoInicial: Int, posicaoFinal: Int) {
         Collections.swap(notas, posicaoInicial, posicaoFinal)
         notifyItemMoved(posicaoInicial, posicaoFinal)
-    }
-
-    fun altera(posicao: Int, nota: Notas) {
-        notas[posicao] = nota
-        notifyItemChanged(posicao)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotasViewHolder {

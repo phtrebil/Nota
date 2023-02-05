@@ -1,20 +1,19 @@
 package br.com.pedro.notas.ui.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
 import br.com.pedro.notas.R
-import br.com.pedro.notas.dao.NotasDao
+import br.com.pedro.notas.dao.NotaDataBase
 import br.com.pedro.notas.databinding.ActivityFormularioNotaBinding
 import br.com.pedro.notas.model.Notas
 
 
 class FormularioNotaActivity : AppCompatActivity() {
-
 
     private val binding by lazy {
         ActivityFormularioNotaBinding.inflate(layoutInflater)
@@ -25,11 +24,12 @@ class FormularioNotaActivity : AppCompatActivity() {
         setContentView(binding.root)
         setTitle("Cria Nota")
         val dadosRecebidos = intent
-        if(dadosRecebidos.hasExtra("nota")) {
+        if (dadosRecebidos.hasExtra("nota")) {
             setTitle("Edita Nota")
             intent.getParcelableExtra<Notas>("nota")?.let { notaEdita ->
                 preencheCampo(notaEdita)
             }
+
         }
 
     }
@@ -38,8 +38,8 @@ class FormularioNotaActivity : AppCompatActivity() {
         binding.tituloAdd.text = notaEdita.Título.toEditable()
         binding.textoAdd.text = notaEdita.Texto.toEditable()
     }
-    fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)
 
+    fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -59,34 +59,32 @@ class FormularioNotaActivity : AppCompatActivity() {
     }
 
 
-
     private fun criaNota() {
+        val db = Room.databaseBuilder(
+            this,
+            NotaDataBase::class.java, "db"
+        ).allowMainThreadQueries().build()
         val dadosRecebidos = intent
-        criaNotaNova()
-        if(!dadosRecebidos.hasExtra("nota")) {
-            val dao = NotasDao
-            dao.adiciona(criaNotaNova())
-            finish()
-        }else{
-            val resultadoInsercao = Intent(this, ListaDeNotasActivity::class.java).apply {
-                putExtra("nota2", criaNotaNova())
-                putExtra("posicao", -1)
-            }
-            startActivity(resultadoInsercao)
+        var titulo = binding.tituloAdd.text.toString()
+        var texto = binding.textoAdd.text.toString()
+        val notaNova = Notas(
+            0,
+            titulo,
+            texto
+        )
 
+        if (!dadosRecebidos.hasExtra("nota")) {
+            db.notasDao().salva(notaNova)
+            finish()
+        } else {
+            db.notasDao().edita(notaNova)
+            finish()
         }
 
     }
 
-    private fun criaNotaNova(): Notas {
-        val titulo = binding.tituloAdd.text.toString()
-        val texto = binding.textoAdd.text.toString()
-        val novaNota = Notas(
-            titulo,
-            texto
-        )
-        return novaNota
-    }
-
-
 }
+
+
+
+

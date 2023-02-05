@@ -1,7 +1,10 @@
 package br.com.pedro.notas.ui.adapter.helper.callback
 
+import android.content.Context
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
+import br.com.pedro.notas.dao.NotaDataBase
 import br.com.pedro.notas.dao.NotasDao
 import br.com.pedro.notas.ui.adapter.ListaDeNotasAdapter
 
@@ -9,7 +12,9 @@ class NotaItemTouchHelper(
 
     private val adapter: ListaDeNotasAdapter? = null
 
+
 ) : ItemTouchHelper.Callback() {
+
 
 
     override fun getMovementFlags(
@@ -34,7 +39,7 @@ class NotaItemTouchHelper(
     }
 
     private fun trocaNotas(posicaoInicial: Int, posicaoFinal: Int) {
-        NotasDao().troca(posicaoInicial, posicaoFinal)
+
         adapter?.troca(posicaoInicial, posicaoFinal)
     }
 
@@ -44,7 +49,6 @@ class NotaItemTouchHelper(
     }
 
     private fun removeItem(item: Int) {
-        NotasDao.remove(item)
         adapter?.remove(item)
     }
 }

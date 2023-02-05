@@ -1,47 +1,26 @@
 package br.com.pedro.notas.dao
 
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
 import br.com.pedro.notas.model.Notas
-import java.util.*
+@Dao
+interface NotasDao {
 
-class NotasDao {
-    fun buscaTudo(): List<Notas> {
-        return notas.toList()
-    }
+    @Query("SELECT * FROM Notas")
+    fun bustaTudo(): List<Notas>
 
-    fun troca(posicaoInicial: Int, posicaoFinal: Int) {
-        Collections.swap(notas, posicaoInicial, posicaoFinal)
-    }
+    @Query("SELECT * FROM Notas WHERE id IN (:userIds)")
+    fun buscaPeloId(userIds: IntArray): List<Notas>
 
-    fun alteraNota(posicao: Int, nota: Notas) {
-        notas[posicao] = nota
-    }
+    @Insert
+    fun salva(vararg notas: Notas)
 
-    companion object {
+    @Delete
+    fun delete(notas: Notas)
 
-        fun adiciona(nota: Notas) {
-            notas.add(nota)
-        }
-
-        fun remove(posicao: Int) {
-            notas.removeAt(posicao)
-        }
-
-        private val notas = mutableListOf<Notas>(
-            Notas(
-                "Título",
-                "@tools:sample/lorem/random"
-            ),
-            Notas(
-                "Título",
-                "@tools:sample/lorem/random"
-            ),
-            Notas(
-                "Título",
-                "@tools:sample/lorem/random"
-            )
-        )
-
-    }
-
-
+    @Update
+    fun edita (notas: Notas)
 }
