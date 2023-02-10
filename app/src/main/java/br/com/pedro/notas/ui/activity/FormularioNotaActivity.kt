@@ -15,6 +15,11 @@ import br.com.pedro.notas.model.Notas
 
 class FormularioNotaActivity : AppCompatActivity() {
 
+    private var nota = Notas(
+        0,
+        "",
+        ""
+    )
     private val binding by lazy {
         ActivityFormularioNotaBinding.inflate(layoutInflater)
     }
@@ -28,6 +33,7 @@ class FormularioNotaActivity : AppCompatActivity() {
             setTitle("Edita Nota")
             intent.getParcelableExtra<Notas>("nota")?.let { notaEdita ->
                 preencheCampo(notaEdita)
+                nota = notaEdita
             }
 
         }
@@ -77,7 +83,7 @@ class FormularioNotaActivity : AppCompatActivity() {
             db.notasDao().salva(notaNova)
             finish()
         } else {
-            db.notasDao().edita(notaNova)
+            db.notasDao().edita(Notas(nota.id, titulo, texto))
             finish()
         }
 
