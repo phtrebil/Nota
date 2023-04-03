@@ -36,3 +36,12 @@ Este é um projeto open-source, e contribuições são bem-vindas. Sinta-se à v
 
 <h3>Autor</h3>
 Este aplicativo foi desenvolvido por Pedro Trebilcock.
+
+<h1> Vitrine.dev </h1>
+
+| :placard: Vitrine.Dev |     |
+| -------------  | --- |
+| :sparkles: Nome        | **Nota**
+| :label: Tecnologias | kotlin, room, recyclerView
+| :rocket: URL         | https://github.com/phtrebil/Nota
+| :fire: Desafio     | https://github.com/phtrebil/Nota
